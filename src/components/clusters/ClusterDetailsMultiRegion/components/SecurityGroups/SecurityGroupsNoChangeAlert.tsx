@@ -4,7 +4,16 @@ import { Alert, AlertActionLink } from '@patternfly/react-core';
 
 import links from '~/common/installLinks.mjs';
 
-const SecurityGroupsNoChangeAlert = ({ isRosa }: { isRosa?: boolean }) => (
+const rosaSecurityGroupsLink = (isHypershift: boolean) =>
+  isHypershift ? links.ROSA_SECURITY_GROUPS : links.ROSA_CLASSIC_SECURITY_GROUPS;
+
+const SecurityGroupsNoChangeAlert = ({
+  isRosa,
+  isHypershift,
+}: {
+  isRosa?: boolean;
+  isHypershift: boolean;
+}) => (
   <Alert
     variant="info"
     isInline
@@ -13,7 +22,7 @@ const SecurityGroupsNoChangeAlert = ({ isRosa }: { isRosa?: boolean }) => (
       <>
         <AlertActionLink
           component="a"
-          href={isRosa ? links.ROSA_SECURITY_GROUPS : links.OSD_SECURITY_GROUPS}
+          href={isRosa ? rosaSecurityGroupsLink(isHypershift) : links.OSD_SECURITY_GROUPS}
           target="_blank"
         >
           View more information
