@@ -2,6 +2,7 @@ import React from 'react';
 
 import { checkAccessibility, render, screen } from '~/testUtils';
 
+import links from '../../../../../../../common/installLinks.mjs';
 import { useFetchUsers } from '../../../../../../../queries/ClusterDetailsQueries/AccessControlTab/UserQueries/useFetchUsers';
 import fixtures from '../../../../__tests__/ClusterDetails.fixtures';
 import { initialState } from '../UsersReducer';
@@ -36,6 +37,8 @@ describe('<Users />', () => {
     canAddClusterAdmin: false,
     clusterHibernating: false,
     isReadOnly: false,
+    isHypershift: false,
+    isROSA: true,
   };
   afterEach(() => {
     getUsers.mockClear();
@@ -85,6 +88,56 @@ describe('<Users />', () => {
       expect(await screen.findAllByRole('cell', { name: 'dedicated-admins' })).toHaveLength(2);
       expect(screen.getAllByRole('cell', { name: 'cluster-admins' })).toHaveLength(2);
       await checkAccessibility(container);
+    });
+  });
+
+  describe('IAM operator roles link', () => {
+    it('Shows classic documentation link when cluster is rosa classic', async () => {
+      useFetchUsersMock.mockReturnValue({
+        data: {
+          users,
+        },
+        isLoading: false,
+        osError: false,
+        error: null,
+      });
+
+      render(<UsersSection {...props} isROSA />);
+
+      const link = screen.getByText('Learn more.');
+      expect(link).toHaveAttribute('href', links.ROSA_CLASSIC_AWS_IAM_OPERATOR_ROLES);
+    });
+
+    it('Shows HCP documentation link when cluster is HCP', async () => {
+      useFetchUsersMock.mockReturnValue({
+        data: {
+          users,
+        },
+        isLoading: false,
+        osError: false,
+        error: null,
+      });
+
+      render(<UsersSection {...props} isROSA isHypershift />);
+
+      const link = screen.getByText('Learn more.');
+      expect(link).toHaveAttribute('href', links.ROSA_AWS_IAM_OPERATOR_ROLES);
+    });
+
+    it('Shows OSD documentation link when cluster is OSD', async () => {
+      useFetchUsersMock.mockReturnValue({
+        data: {
+          users,
+        },
+        isLoading: false,
+        osError: false,
+        error: null,
+      });
+
+      render(<UsersSection {...props} isROSA={false} />);
+
+      const link = screen.getByText('Learn more.');
+      expect(link).toHaveAttribute('href', links.OSD_DEDICATED_ADMIN_ROLE);
     });
   });
 });
