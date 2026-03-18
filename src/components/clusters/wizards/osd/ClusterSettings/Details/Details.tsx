@@ -280,21 +280,7 @@ function Details() {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [channelGroup, cloudProvider]);
-
-  React.useEffect(() => {
-    if (isEUSChannelEnabled) {
-      setFieldValue(FieldId.ClusterVersion, selectedVersion);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  React.useEffect(() => {
-    if (isEUSChannelEnabled) {
-      setFieldValue(FieldId.ClusterVersion, availableVersions[0]);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cloudProvider]);
+  }, [channelGroup]);
 
   const availabilityZoneOptions: RadioGroupOption[] = [
     {
