@@ -370,9 +370,7 @@ describe('<Details />', () => {
       };
       withState(loadedState).render(
         <Formik initialValues={formValues} onSubmit={() => {}}>
-          <div>
-            <Details />
-          </div>
+          <Details />
         </Formik>,
       );
 

@@ -262,16 +262,13 @@ function Details() {
   );
 
   React.useEffect(() => {
-    if (isEUSChannelEnabled) {
+    if (isEUSChannelEnabled && availableVersions.length > 0) {
       const parseVersion = (version: string | undefined) => semver.valid(semver.coerce(version));
 
-      const foundVersion =
-        availableVersions.length > 0
-          ? availableVersions?.find(
-              (version: Version) =>
-                parseVersion(version?.raw_id) === parseVersion(selectedVersion?.raw_id),
-            )
-          : null;
+      const foundVersion = availableVersions?.find(
+        (version: Version) =>
+          parseVersion(version?.raw_id) === parseVersion(selectedVersion?.raw_id),
+      );
 
       if (foundVersion) {
         setFieldValue(FieldId.ClusterVersion, foundVersion);
