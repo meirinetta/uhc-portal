@@ -5,6 +5,7 @@ import { Bullseye, Card, CardBody, CardHeader, Gallery, Tooltip } from '@pattern
 
 import { noQuotaTooltip } from '~/common/helpers';
 import { isGcpMarketplaceBilling } from '~/components/clusters/common/billingModelMapper';
+import { isGcpMarketplaceBilling } from '~/components/clusters/common/billingModelMapper';
 import {
   AWS_DEFAULT_REGION,
   CHANNEL_GROUP_DEFAULT,

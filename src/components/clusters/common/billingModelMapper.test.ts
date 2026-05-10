@@ -8,6 +8,10 @@ import {
   clusterBillingModelToRelatedResource,
   isGcpMarketplaceBilling,
 } from './billingModelMapper';
+import {
+  clusterBillingModelToRelatedResource,
+  isGcpMarketplaceBilling,
+} from './billingModelMapper';
 
 describe('billingModelMapper', () => {
   describe('clusterBillingModelToRelatedResource', () => {
