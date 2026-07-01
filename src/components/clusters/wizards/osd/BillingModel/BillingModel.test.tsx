@@ -95,6 +95,23 @@ describe('<BillingModel />', () => {
       expect(byocRadioCCSOption).toBeInTheDocument();
       expect(byocRadioCCSOption).toBeChecked();
     });
+
+    it('defaults to On-Demand when there is no standard OSD quota', async () => {
+      mockUseGetBillingQuotas.mockReturnValue({
+        ...defaultQuotas,
+        standardOsd: false,
+      });
+
+      render(buildTestComponent());
+
+      const onDemandRadioOption = screen.getByRole('radio', {
+        name: /On-Demand: Flexible usage billed through/i,
+      });
+
+      await waitFor(() => {
+        expect(onDemandRadioOption).toBeChecked();
+      });
+    });
   });
 
   describe('When creating a cluster coming from google cloud console', () => {

@@ -147,16 +147,17 @@ export const BillingModel = () => {
       }
     }
 
-    // Select marketplace billing if user only has marketplace quota
-    // Also, if the selected default billing model is disabled
-    // Default to marketplace
+    // Select GCP marketplace billing if user doesn't have standard OSD quota
     if (
-      (!showOsdTrial || billingModel === SubscriptionCommonFieldsClusterBillingModel.standard) &&
-      quotas.marketplace &&
       !quotas.standardOsd &&
-      !billingModel.startsWith(SubscriptionCommonFieldsClusterBillingModel.marketplace)
+      billingModel === SubscriptionCommonFieldsClusterBillingModel.standard
     ) {
-      setFieldValue(FieldId.BillingModel, SubscriptionCommonFieldsClusterBillingModel.marketplace);
+      setFieldValue(
+        FieldId.BillingModel,
+        SubscriptionCommonFieldsClusterBillingModel.marketplace_gcp,
+      );
+      setFieldValue(FieldId.CloudProvider, CloudProviderType.Gcp, false);
+      setFieldValue(FieldId.Byoc, 'true');
     }
 
     clearPreviousVersionsReponse();
@@ -165,7 +166,7 @@ export const BillingModel = () => {
     product,
     billingModel,
     showOsdTrial,
-    quotas.marketplace,
+    quotas.gcpResources,
     quotas.standardOsd,
     selectedMarketplace,
   ]);
