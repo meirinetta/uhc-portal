@@ -14,7 +14,10 @@ import {
 } from '~/types/clusters_mgmt.v1';
 import { ClusterFromSubscription } from '~/types/types';
 
-import { clusterBillingModelToRelatedResource } from '../billingModelMapper';
+import {
+  clusterBillingModelToRelatedResource,
+  isGcpMarketplaceBilling,
+} from '../billingModelMapper';
 import { QuotaParams, QuotaTypes } from '../quotaModel';
 
 import {
@@ -254,16 +257,18 @@ export const getMaxNodeCountForMachinePool = ({
     ((cluster as ClusterFromSubscription).subscription
       ?.cluster_billing_model as Cluster['billing_model']);
 
-  const available = getAvailableQuota({
-    quota,
-    machineTypes,
-    machineTypeId,
-    isMultiAz: clusterIsMultiAz,
-    isByoc: !!cluster.ccs?.enabled,
-    cloudProviderID: cluster.cloud_provider?.id,
-    billingModel,
-    product: cluster.product?.id,
-  });
+  const available = isGcpMarketplaceBilling(billingModel)
+    ? Infinity
+    : getAvailableQuota({
+        quota,
+        machineTypes,
+        machineTypeId,
+        isMultiAz: clusterIsMultiAz,
+        isByoc: !!cluster.ccs?.enabled,
+        cloudProviderID: cluster.cloud_provider?.id,
+        billingModel,
+        product: cluster.product?.id,
+      });
 
   const isHypershift = isHypershiftCluster(cluster);
 
