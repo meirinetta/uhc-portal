@@ -443,7 +443,7 @@ export class ClusterIdentityProviderPage extends BasePage {
   }
 
   async scrollToBottom(): Promise<void> {
-    await this.page.getByTestId('appDrawerContent').evaluate((el) => {
+    await this.page.locator('main.pf-v6-c-page__main').evaluate((el) => {
       el.scrollTop = el.scrollHeight;
     });
   }
